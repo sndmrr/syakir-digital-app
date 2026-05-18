@@ -1,0 +1,1 @@
+GRANT EXECUTE ON FUNCTION public.search_tagihan_by_name(text) TO anon, authenticated;

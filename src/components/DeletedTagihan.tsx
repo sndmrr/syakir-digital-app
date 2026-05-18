@@ -85,7 +85,7 @@ export const DeletedTagihan = ({ deletedTagihans, onRestoreTagihan, onPermanentD
             <div key={tagihan.id} className="flex items-center justify-between p-4 bg-white/[0.03] rounded-xl border border-white/[0.06]">
               <div className="flex-1">
                 <div className="font-medium text-red-500">{tagihan.nama}</div>
-                <div className="text-sm text-white/40">{formatCurrency(tagihan.jumlah)}</div>
+                <div className="text-sm text-red-500 font-semibold">{formatCurrency(tagihan.jumlah)}</div>
                 <div className="text-xs text-white/30 mt-1">Dihapus: {formatDate(tagihan.deleted_at!)}</div>
                 <div className="text-xs text-white/30">Status: {tagihan.status === 'lunas' ? 'Lunas' : 'Belum Lunas'}</div>
                 <div className="flex items-center gap-1 text-xs text-red-400/60 mt-1">
