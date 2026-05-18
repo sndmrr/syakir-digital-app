@@ -39,52 +39,52 @@ export const TagihanLunas = ({
   if (tagihanLunas.length === 0) return null;
 
   return (
-    <Card className="shadow-lg border-0 bg-gradient-to-br from-green-50 to-emerald-50 border border-green-200">
-      <CardHeader>
+    <Card className="shadow-[0_1px_3px_rgba(0,0,0,0.04),0_1px_2px_rgba(0,0,0,0.06)] border border-blue-200 bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl">
+      <CardHeader className="pb-2 pt-3 px-3">
         <div className="flex items-center justify-between">
-          <CardTitle className="text-lg text-gray-800 font-semibold">✅ Tagihan Sudah Lunas</CardTitle>
+          <CardTitle className="text-gray-800 text-sm font-semibold">✅ Tagihan Sudah Lunas</CardTitle>
           {tagihanLunas.length > 0 && !isMitra && (
-            <Button onClick={onDeleteAllLunas} variant="outline" size="sm" className="text-red-600 hover:bg-red-50 border-red-200">
-              <Trash2 className="h-4 w-4 mr-2" />
-              {isFiltered ? 'Hapus Semua (Filter)' : 'Hapus Semua'}
+            <Button onClick={onDeleteAllLunas} variant="outline" size="sm" className="text-red-600 hover:bg-red-50 border-red-200 text-[10px] px-2 py-1 h-7 rounded-lg">
+              <Trash2 className="h-3 w-3 mr-1" />
+              {isFiltered ? 'Hapus Semua' : 'Hapus Semua'}
             </Button>
           )}
         </div>
       </CardHeader>
-      <CardContent className="rounded-lg p-4">
-        <div className="space-y-3">
+      <CardContent className="rounded-lg px-3 pb-3">
+        <div className="space-y-2">
           {tagihanLunas.map((tagihan) => (
-            <div key={tagihan.id} className="flex items-center justify-between p-4 bg-white rounded-2xl border border-gray-200 shadow-md hover:shadow-lg transition-shadow">
+            <div key={tagihan.id} className="flex items-center justify-between p-2.5 bg-white rounded-lg border border-gray-200 shadow-[0_1px_2px_rgba(0,0,0,0.04)] hover:shadow-[0_2px_4px_rgba(0,0,0,0.06)] transition-shadow">
               <div className="flex-1">
-                <div className="font-semibold text-sm sm:text-base text-gray-800 truncate mb-2">{tagihan.nama}</div>
-                <div className="bg-gradient-to-r from-green-100 to-emerald-100 text-green-800 px-3 py-2 rounded-lg font-semibold text-sm sm:text-base inline-block mb-2">
+                <div className="font-semibold text-[10px] sm:text-xs text-gray-800 truncate mb-1">{tagihan.nama}</div>
+                <div className="bg-gradient-to-r from-green-100 to-emerald-100 text-green-800 px-2 py-1 rounded-md font-semibold text-[10px] sm:text-xs inline-block mb-1">
                   {formatCurrency(tagihan.jumlah)}
                 </div>
-                <div className="flex items-center gap-2 mb-1">
-                  <div className="text-xs text-gray-500 font-medium">Diinput: {formatDate(tagihan.created_at)}</div>
+                <div className="flex items-center gap-1.5 mb-0.5">
+                  <div className="text-[9px] text-gray-500 font-medium">Diinput: {formatDate(tagihan.created_at)}</div>
                   {tagihan.nama_input && (
-                    <span className={`${getUserColor(tagihan.nama_input)} text-white text-xs px-2 py-1 rounded-full font-medium shadow-sm`}>{tagihan.nama_input}</span>
+                    <span className={`${getUserColor(tagihan.nama_input)} text-white text-[9px] px-1.5 py-0.5 rounded-full font-medium shadow-sm`}>{tagihan.nama_input}</span>
                   )}
                 </div>
                 {tagihan.nama_lunas && (
-                  <div className="flex items-center gap-2">
-                    <div className="text-xs text-gray-500 font-medium">Lunas oleh:</div>
-                    <span className={`${getUserColor(tagihan.nama_lunas)} text-white text-xs px-2 py-1 rounded-full font-medium shadow-sm`}>{tagihan.nama_lunas}</span>
+                  <div className="flex items-center gap-1.5">
+                    <div className="text-[9px] text-gray-500 font-medium">Lunas oleh:</div>
+                    <span className={`${getUserColor(tagihan.nama_lunas)} text-white text-[9px] px-1.5 py-0.5 rounded-full font-medium shadow-sm`}>{tagihan.nama_lunas}</span>
                   </div>
                 )}
               </div>
-              <div className="flex items-center gap-2">
-                <div className="bg-gradient-to-r from-green-500 to-emerald-500 text-white px-3 py-2 rounded-xl font-semibold text-xs sm:text-sm shadow-md">
+              <div className="flex items-center gap-1">
+                <div className="bg-gradient-to-r from-green-500 to-emerald-500 text-white px-2 py-1 rounded-md font-semibold text-[9px] sm:text-[10px] shadow-sm">
                   ✓ Lunas
                 </div>
                 {(!isMitra || canRestore) && onRestoreTagihan && (
-                  <Button size="sm" onClick={() => onRestoreTagihan(tagihan.id)} variant="outline" className="text-blue-600 hover:bg-blue-50 px-2 border-gray-300 rounded-lg" title="Kembalikan ke tagihan aktif">
-                    <RotateCcw className="h-4 w-4" />
+                  <Button size="sm" onClick={() => onRestoreTagihan(tagihan.id)} variant="outline" className="text-blue-600 hover:bg-blue-50 px-1.5 border-gray-300 rounded-md h-6 w-6" title="Kembalikan ke tagihan aktif">
+                    <RotateCcw className="h-3 w-3" />
                   </Button>
                 )}
                 {(!isMitra || canDelete) && onDeleteTagihan && (
-                  <Button size="sm" onClick={() => onDeleteTagihan(tagihan.id)} variant="outline" className="text-red-600 hover:bg-red-50 px-2 border-gray-300 rounded-lg">
-                    <Trash2 className="h-4 w-4" />
+                  <Button size="sm" onClick={() => onDeleteTagihan(tagihan.id)} variant="outline" className="text-red-600 hover:bg-red-50 px-1.5 border-gray-300 rounded-md h-6 w-6">
+                    <Trash2 className="h-3 w-3" />
                   </Button>
                 )}
               </div>

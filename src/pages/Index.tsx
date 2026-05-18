@@ -10,6 +10,7 @@ import { Plus } from 'lucide-react';
 import { Header } from "@/components/Header";
 import { DashboardCards } from "@/components/DashboardCards";
 import { AddTagihan } from "@/components/AddTagihan";
+import { BottomNav } from "@/components/BottomNav";
 import { TagihanAktif } from "@/components/TagihanAktif";
 import { TagihanLunas } from "@/components/TagihanLunas";
 import { DeletedTagihan } from "@/components/DeletedTagihan";
@@ -33,6 +34,7 @@ const Index = () => {
   const [showLoading, setShowLoading] = useState(true);
   
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [bayarOpen, setBayarOpen] = useState(false);
   const [loggingOut, setLoggingOut] = useState(false);
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -127,6 +129,11 @@ const Index = () => {
     totalJumlah: number;
   }>);
 
+  // Sort items in each group: newest (by updated_at) first
+  groupedTagihanAktif.forEach(group => {
+    group.items.sort((a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime());
+  });
+
   const totalTagihanAktif = tagihanAktif.reduce((sum, t) => sum + t.jumlah, 0);
   const totalPembayaran = tagihanLunas.reduce((sum, t) => sum + t.jumlah, 0);
   const saldoAwal = settings?.saldo_awal || 0;
@@ -162,61 +169,56 @@ const Index = () => {
     : [{ user_id: user.id, full_name: userName, username: '' }];
 
   return (
-    <div className="min-h-screen bg-gray-50 relative overflow-hidden">
+    <div className="min-h-screen bg-white relative overflow-hidden" style={{ paddingBottom: 'calc(5.5rem + env(safe-area-inset-bottom))' }}>
       
-      <div className="max-w-7xl mx-auto space-y-6 p-4 sm:p-6 lg:p-8">
-        <Header onSignOut={handleSignOut} />
+      <div className="bg-gradient-to-br from-green-900 via-green-800 to-green-900 pb-4">
+        <div className="max-w-7xl mx-auto space-y-3 p-2.5 sm:p-3 lg:p-4">
+          <Header onSignOut={handleSignOut} />
 
-        <WelcomeGreeting userName={userName} />
+          <WelcomeGreeting userName={userName} />
 
-        <DashboardCards
-          saldoAwal={saldoAwal} 
-          totalTagihanAktif={totalTagihanAktif} 
-          totalPembayaran={totalPembayaran} 
-          sisaSaldo={sisaSaldo} 
-          onUpdateSaldoAwal={handleUpdateSaldoAwal} 
-          formatCurrency={formatCurrency} 
-        />
-
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-          className="flex flex-col sm:flex-row gap-3"
-        >
-          <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-            <DialogTrigger asChild>
-              <Button className="w-full sm:w-auto bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 shadow-md text-xs sm:text-sm h-10 sm:h-11 rounded-xl font-semibold transition-all duration-300 hover:scale-[1.02] text-white">
-                <Plus className="h-5 w-5 mr-2" />
-                Tambah Tagihan
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[600px] max-h-[85vh] top-[10%] translate-y-0 sm:top-[50%] sm:translate-y-[-50%] overflow-y-auto bg-white border-gray-200">
-              <DialogHeader>
-                <DialogTitle className="flex items-center gap-2 text-gray-800">
-                  <Plus className="h-5 w-5" />
-                  Tambah Tagihan Baru
-                </DialogTitle>
-                <DialogDescription className="text-gray-500">
-                  Masukkan nama dan jumlah tagihan baru
-                </DialogDescription>
-              </DialogHeader>
-              <AddTagihan 
-                onAddTagihan={async (nama, jumlah) => {
-                  await handleAddTagihan(nama, jumlah);
-                  setDialogOpen(false);
-                }} 
-              />
-            </DialogContent>
-          </Dialog>
-
-          <BayarLangsung 
-            onBayarLangsung={async (nama, jumlah) => {
-              const { error } = await addTagihanLunas(nama, jumlah);
-              if (error) throw error;
-            }}
+          <DashboardCards
+            saldoAwal={saldoAwal} 
+            totalTagihanAktif={totalTagihanAktif} 
+            totalPembayaran={totalPembayaran} 
+            sisaSaldo={sisaSaldo} 
+            onUpdateSaldoAwal={handleUpdateSaldoAwal} 
+            formatCurrency={formatCurrency} 
           />
-        </motion.div>
+        </div>
+      </div>
+
+      <div className="max-w-7xl mx-auto space-y-3 p-2.5 sm:p-3 lg:p-4">
+
+        <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+          <DialogContent className="sm:max-w-[500px] max-h-[85vh] top-[10%] translate-y-0 sm:top-[50%] sm:translate-y-[-50%] overflow-y-auto bg-white border-gray-200 rounded-xl">
+            <DialogHeader>
+              <DialogTitle className="flex items-center gap-2 text-gray-800 text-sm font-semibold">
+                <Plus className="h-4 w-4" />
+                Tambah Tagihan Baru
+              </DialogTitle>
+              <DialogDescription className="text-gray-500 text-xs">
+                Masukkan nama dan jumlah tagihan baru
+              </DialogDescription>
+            </DialogHeader>
+            <AddTagihan
+              onAddTagihan={async (nama, jumlah) => {
+                await handleAddTagihan(nama, jumlah);
+                setDialogOpen(false);
+              }}
+            />
+          </DialogContent>
+        </Dialog>
+
+        <BayarLangsung
+          hideTrigger
+          open={bayarOpen}
+          onOpenChange={setBayarOpen}
+          onBayarLangsung={async (nama, jumlah) => {
+            const { error } = await addTagihanLunas(nama, jumlah);
+            if (error) throw error;
+          }}
+        />
 
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
@@ -260,6 +262,14 @@ const Index = () => {
           />
         </motion.div>
       </div>
+
+      <BottomNav
+        onTambahTagihan={() => setDialogOpen(true)}
+        onBayarLangsung={() => setBayarOpen(true)}
+        onTambahUser={() => setDialogOpen(true)}
+        showTambahUser={false}
+        role={role as 'admin' | 'mitra' | 'staff'}
+      />
     </div>
   );
 };

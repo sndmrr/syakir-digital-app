@@ -25,13 +25,13 @@ const getRandomMotivation = () => {
 const getTimeGreeting = () => {
   const hour = new Date().getHours();
   if (hour >= 5 && hour < 11) {
-    return { greeting: "Selamat Pagi", emoji: "☀️", icon: Coffee, color: "from-blue-600 via-blue-500 to-cyan-500" };
+    return { greeting: "Selamat Pagi", emoji: "☀️", icon: Coffee, color: "from-green-600 via-green-500 to-emerald-500" };
   } else if (hour >= 11 && hour < 15) {
-    return { greeting: "Selamat Siang", emoji: "🌤️", icon: Sun, color: "from-sky-600 via-blue-500 to-indigo-500" };
+    return { greeting: "Selamat Siang", emoji: "🌤️", icon: Sun, color: "from-green-500 via-emerald-500 to-teal-500" };
   } else if (hour >= 15 && hour < 18) {
-    return { greeting: "Selamat Sore", emoji: "🌅", icon: Sunset, color: "from-indigo-600 via-blue-500 to-cyan-600" };
+    return { greeting: "Selamat Sore", emoji: "🌅", icon: Sunset, color: "from-emerald-600 via-green-500 to-teal-600" };
   } else {
-    return { greeting: "Selamat Malam", emoji: "🌙", icon: Moon, color: "from-slate-700 via-blue-800 to-indigo-900" };
+    return { greeting: "Selamat Malam", emoji: "🌙", icon: Moon, color: "from-green-700 via-emerald-800 to-teal-900" };
   }
 };
 
@@ -47,34 +47,34 @@ const WelcomeGreeting = ({ userName }: WelcomeGreetingProps) => {
   };
 
   return (
-    <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="mb-2 sm:mb-4">
-      <div className={`relative overflow-hidden rounded-xl sm:rounded-2xl bg-gradient-to-r ${timeData.color} p-[1px] shadow-lg`}>
-        <div className={`relative bg-gradient-to-br ${timeData.color} rounded-[11px] sm:rounded-[15px] px-3 py-2 sm:px-6 sm:py-4 overflow-hidden`}>
-          <motion.div animate={{ scale: [1, 1.2, 1], opacity: [0.15, 0.3, 0.15] }} transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }} className="absolute -top-10 -right-10 w-20 h-20 sm:w-24 sm:h-24 bg-white/15 rounded-full blur-xl" />
+    <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.2 }} className="mb-2">
+      <div className={`relative overflow-hidden rounded-lg bg-gradient-to-r ${timeData.color} p-[1px] shadow-[0_1px_3px_rgba(0,0,0,0.04),0_1px_2px_rgba(0,0,0,0.06)]`}>
+        <div className={`relative bg-gradient-to-br ${timeData.color} rounded-[11px] px-2.5 py-1.5 overflow-hidden`}>
+          <motion.div animate={{ scale: [1, 1.2, 1], opacity: [0.15, 0.3, 0.15] }} transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }} className="absolute -top-8 -right-8 w-16 h-16 bg-white/15 rounded-full blur-xl" />
 
-          <div className="relative z-10 flex flex-col gap-1.5 sm:gap-3">
-            <div className="flex items-center justify-between gap-2 sm:gap-4">
-              <div className="flex items-center gap-2 sm:gap-4 min-w-0">
-                <motion.div animate={{ rotate: [0, 5, -5, 0], scale: [1, 1.05, 1] }} transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }} className="bg-white/15 backdrop-blur-sm rounded-full p-2 sm:p-3 shrink-0">
-                  <TimeIcon className="w-5 h-5 sm:w-8 sm:h-8 text-white drop-shadow-md" />
+          <div className="relative z-10 flex flex-col gap-1">
+            <div className="flex items-center justify-between gap-2">
+              <div className="flex items-center gap-1.5 min-w-0">
+                <motion.div animate={{ rotate: [0, 5, -5, 0], scale: [1, 1.05, 1] }} transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }} className="bg-white/15 backdrop-blur-sm rounded-full p-1.5 shrink-0">
+                  <TimeIcon className="w-4 h-4 text-white drop-shadow-md" />
                 </motion.div>
                 <div className="min-w-0">
-                  <p className="text-white/80 text-[10px] sm:text-sm font-medium">{timeData.emoji} {timeData.greeting}</p>
-                  <h2 className="text-sm sm:text-xl md:text-2xl font-bold text-white drop-shadow-md truncate">{userName} 👋</h2>
+                  <p className="text-white/80 text-[9px] font-medium">{timeData.emoji} {timeData.greeting}</p>
+                  <h2 className="text-xs font-bold text-white drop-shadow-md truncate">{userName} 👋</h2>
                 </div>
               </div>
 
-              <Button onClick={handleRefresh} size="sm" className="bg-white/15 hover:bg-white/25 backdrop-blur-sm rounded-full h-8 w-8 sm:h-10 sm:w-10 p-0 border border-white/20 shadow-lg transition-all duration-300 hover:scale-105 shrink-0">
+              <Button onClick={handleRefresh} size="sm" className="bg-white/15 hover:bg-white/25 backdrop-blur-sm rounded-full h-7 w-7 p-0 border border-white/20 shadow-sm transition-all duration-150 hover:scale-105 shrink-0">
                 <motion.div animate={isRefreshing ? { rotate: 360 } : {}} transition={{ duration: 0.5, ease: "easeInOut" }}>
-                  <RefreshCw className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
+                  <RefreshCw className="w-3.5 w-3.5 text-white" />
                 </motion.div>
               </Button>
             </div>
 
-            <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.3 }} className="bg-white/10 backdrop-blur-sm rounded-lg sm:rounded-xl px-2 py-1 sm:px-4 sm:py-2 flex items-center gap-1.5 sm:gap-2">
-              <TrendingUp className="w-3 h-3 sm:w-4 sm:h-4 text-cyan-200 shrink-0" />
-              <p className="text-white/85 text-[9px] sm:text-sm truncate">{motivation.emoji} {motivation.text}</p>
-              <Activity className="w-3 h-3 sm:w-4 sm:h-4 text-cyan-200 shrink-0" />
+            <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2 }} className="bg-white/10 backdrop-blur-sm rounded-md px-2 py-0.5 flex items-center gap-1">
+              <TrendingUp className="w-2.5 h-2.5 text-green-200 shrink-0" />
+              <p className="text-white/85 text-[8px] truncate">{motivation.emoji} {motivation.text}</p>
+              <Activity className="w-2.5 h-2.5 text-green-200 shrink-0" />
             </motion.div>
           </div>
         </div>

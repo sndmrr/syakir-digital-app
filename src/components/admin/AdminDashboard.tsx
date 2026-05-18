@@ -18,6 +18,7 @@ import { TagihanLunas } from '@/components/TagihanLunas';
 import { DeletedTagihan } from '@/components/DeletedTagihan';
 import { AddTagihanUser } from '@/components/AddTagihanUser';
 import { BayarLangsung } from '@/components/BayarLangsung';
+import { BottomNav } from '@/components/BottomNav';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import WelcomeGreeting from '@/components/WelcomeGreeting';
@@ -48,6 +49,7 @@ import { PesanKeUser } from './PesanKeUser';
 export const AdminDashboard = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [userDialogOpen, setUserDialogOpen] = useState(false);
+  const [bayarOpen, setBayarOpen] = useState(false);
   const [loggingOut, setLoggingOut] = useState(false);
   const [adminMenuOpen, setAdminMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState<string | null>(null);
@@ -186,6 +188,10 @@ export const AdminDashboard = () => {
     items: typeof tagihanAktif;
     totalJumlah: number;
   }>);
+
+  groupedTagihanAktif.forEach(group => {
+    group.items.sort((a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime());
+  });
 
   const totalTagihanAktif = tagihanAktif.reduce((sum, t) => sum + t.jumlah, 0);
   const totalPembayaran = tagihanLunas.reduce((sum, t) => sum + t.jumlah, 0);
@@ -334,93 +340,98 @@ export const AdminDashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-950 to-indigo-950 relative overflow-hidden">
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-float"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-cyan-500 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-float" style={{ animationDelay: '2s' }}></div>
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-indigo-500 rounded-full mix-blend-multiply filter blur-3xl opacity-[0.07] animate-pulse"></div>
-      </div>
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.015)_1px,transparent_1px)] bg-[size:50px_50px]"></div>
+    <div className="min-h-screen bg-white relative overflow-hidden" style={{ paddingBottom: 'calc(6rem + env(safe-area-inset-bottom))' }}>
+      
+      <div className="bg-gradient-to-br from-green-900 via-green-800 to-green-900 pb-4">
+        <div className="absolute inset-0 overflow-hidden">
+          <div className="absolute -top-40 -right-40 w-80 h-80 bg-green-500 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-float"></div>
+          <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-emerald-500 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-float" style={{ animationDelay: '2s' }}></div>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-teal-500 rounded-full mix-blend-multiply filter blur-3xl opacity-[0.07] animate-pulse"></div>
+        </div>
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.015)_1px,transparent_1px)] bg-[size:50px_50px]"></div>
 
-      <div className="relative z-10 max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 space-y-6">
-        <Header onSignOut={handleSignOut} showAdminMenu onAdminMenuClick={handleOpenAdminMenu} />
+        <div className="relative z-10 max-w-7xl mx-auto p-3 sm:p-4 lg:p-6 space-y-4">
+          <Header onSignOut={handleSignOut} showAdminMenu onAdminMenuClick={handleOpenAdminMenu} />
 
-        <WelcomeGreeting userName={userName} />
+          <WelcomeGreeting userName={userName} />
 
-        {/* Kartu Kalkulator Khusus Admin - Hasil saja */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.15 }}
-        >
-          <div className="bg-gradient-to-r from-emerald-500/10 to-teal-500/10 backdrop-blur-xl rounded-2xl border border-emerald-500/20 p-4 shadow-xl flex items-center justify-between gap-4">
-            <div className="flex items-center gap-3">
-              <div className="p-2 bg-emerald-500/20 rounded-lg">
-                <TrendingUp className="h-5 w-5 text-emerald-400" />
+          {/* Kartu Kalkulator Khusus Admin - Hasil saja */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.15 }}
+          >
+            <div className="bg-gradient-to-r from-emerald-500/10 to-teal-500/10 backdrop-blur-xl rounded-2xl border border-emerald-500/20 p-4 shadow-xl flex items-center justify-between gap-4">
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-emerald-500/20 rounded-lg">
+                  <TrendingUp className="h-5 w-5 text-emerald-400" />
+                </div>
+                <span className="text-sm font-semibold text-green-400">Profit</span>
               </div>
-              <span className="text-sm font-semibold text-white/80">Profit</span>
-            </div>
-            <div className="flex items-center gap-2">
-              {editingProfit ? (
-                <Input
-                  type="number"
-                  value={profitInput}
-                  onChange={(e) => setProfitInput(e.target.value)}
-                  onBlur={() => {
-                    const val = parseInt(profitInput) || 0;
-                    updateProfit(val);
-                    setEditingProfit(false);
-                  }}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
+              <div className="flex items-center gap-2">
+                {editingProfit ? (
+                  <Input
+                    type="number"
+                    value={profitInput}
+                    onChange={(e) => setProfitInput(e.target.value)}
+                    onBlur={() => {
                       const val = parseInt(profitInput) || 0;
                       updateProfit(val);
                       setEditingProfit(false);
-                    }
-                  }}
-                  autoFocus
-                  className="w-36 h-8 text-right text-sm bg-white/10 border-white/20 text-white"
-                />
-              ) : (
-                <span
-                  onClick={() => setEditingProfit(true)}
-                  className={`text-lg font-bold cursor-pointer hover:underline ${profit >= 0 ? 'text-emerald-400' : 'text-red-400'}`}
-                >
-                  {formatCurrency(profit)}
-                </span>
-              )}
-              <div className="flex flex-col">
-                <button
-                  onClick={() => updateProfit(profit + 1000)}
-                  className="p-0.5 hover:bg-white/10 rounded transition-colors"
-                >
-                  <ChevronUp className="h-5 w-5 text-white/70 hover:text-white" />
-                </button>
-                <button
-                  onClick={() => updateProfit(profit - 1000)}
-                  className="p-0.5 hover:bg-white/10 rounded transition-colors"
-                >
-                  <ChevronDown className="h-5 w-5 text-white/70 hover:text-white" />
-                </button>
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        const val = parseInt(profitInput) || 0;
+                        updateProfit(val);
+                        setEditingProfit(false);
+                      }
+                    }}
+                    autoFocus
+                    className="w-36 h-8 text-right text-sm bg-white/10 border-white/20 text-white"
+                  />
+                ) : (
+                  <span
+                    onClick={() => setEditingProfit(true)}
+                    className={`text-lg font-bold cursor-pointer hover:underline text-green-400`}
+                  >
+                    {formatCurrency(profit)}
+                  </span>
+                )}
+                <div className="flex flex-col">
+                  <button
+                    onClick={() => updateProfit(profit + 1000)}
+                    className="p-0.5 hover:bg-white/10 rounded transition-colors"
+                  >
+                    <ChevronUp className="h-5 w-5 text-green-400 hover:text-green-300" />
+                  </button>
+                  <button
+                    onClick={() => updateProfit(profit - 1000)}
+                    className="p-0.5 hover:bg-white/10 rounded transition-colors"
+                  >
+                    <ChevronDown className="h-5 w-5 text-green-400 hover:text-green-300" />
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-        </motion.div>
+          </motion.div>
 
-        <DashboardCards
-          saldoAwal={unfilteredSaldoAwal}
-          totalTagihanAktif={selectedUserId === 'all' ? totalTagihanAktif : undefined}
-          totalPembayaran={totalPembayaran}
-          sisaSaldo={unfilteredSaldoAwal + profit - unfilteredTotalTagihan - unfilteredTotalLunas}
-          komisi={selectedUserId !== 'all' ? komisi : undefined}
-          setor={selectedUserId !== 'all' ? setor : undefined}
-          bonus={selectedUserId !== 'all' ? bonus : undefined}
-          totalTagihan={selectedUserId !== 'all' ? totalTagihanAktif : undefined}
-          onUpdateSaldoAwal={handleUpdateSaldoAwal}
-          formatCurrency={formatCurrency}
-          showKomisiSetorBonus={selectedUserId !== 'all'}
-        />
+          <DashboardCards
+            saldoAwal={unfilteredSaldoAwal}
+            totalTagihanAktif={selectedUserId === 'all' ? totalTagihanAktif : undefined}
+            totalPembayaran={totalPembayaran}
+            sisaSaldo={unfilteredSaldoAwal + profit - unfilteredTotalTagihan - unfilteredTotalLunas}
+            komisi={selectedUserId !== 'all' ? komisi : undefined}
+            setor={selectedUserId !== 'all' ? setor : undefined}
+            bonus={selectedUserId !== 'all' ? bonus : undefined}
+            totalTagihan={selectedUserId !== 'all' ? totalTagihanAktif : undefined}
+            onUpdateSaldoAwal={handleUpdateSaldoAwal}
+            formatCurrency={formatCurrency}
+            showKomisiSetorBonus={selectedUserId !== 'all'}
+          />
+        </div>
+      </div>
 
+      <div className="relative z-10 max-w-7xl mx-auto p-3 sm:p-4 lg:p-6 space-y-4">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -428,19 +439,13 @@ export const AdminDashboard = () => {
           className="flex flex-col sm:flex-row gap-4 items-start sm:items-center"
         >
           <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-            <DialogTrigger asChild>
-              <Button className="w-full sm:w-auto bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 shadow-lg shadow-blue-500/25 text-xs sm:text-sm h-10 sm:h-11 rounded-xl font-semibold transition-all duration-300 hover:shadow-blue-500/40 hover:scale-[1.02]">
-                <Plus className="h-4 w-4 sm:h-5 sm:w-5 mr-1.5 sm:mr-2" />
-                Tambah Tagihan
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[600px] max-h-[85vh] top-[10%] translate-y-0 sm:top-[50%] sm:translate-y-[-50%] overflow-y-auto bg-slate-900/95 backdrop-blur-xl border-white/10">
+            <DialogContent className="sm:max-w-[600px] max-h-[85vh] top-[10%] translate-y-0 sm:top-[50%] sm:translate-y-[-50%] overflow-y-auto bg-white border-gray-200">
               <DialogHeader>
-                <DialogTitle className="flex items-center gap-2 text-white">
+                <DialogTitle className="flex items-center gap-2 text-gray-800">
                   <Plus className="h-5 w-5" />
                   Tambah Tagihan Baru
                 </DialogTitle>
-                <DialogDescription className="text-white/60">
+                <DialogDescription className="text-gray-500">
                   Masukkan nama dan jumlah tagihan baru
                 </DialogDescription>
               </DialogHeader>
@@ -453,27 +458,19 @@ export const AdminDashboard = () => {
             </DialogContent>
           </Dialog>
 
-          {/* Add Tagihan for User Dialog */}
           <Dialog open={userDialogOpen} onOpenChange={setUserDialogOpen}>
-            <DialogTrigger asChild>
-              <Button className="w-full sm:w-auto bg-gradient-to-r from-violet-500 to-purple-600 hover:from-violet-600 hover:to-purple-700 shadow-lg shadow-violet-500/25 text-xs sm:text-sm h-10 sm:h-11 rounded-xl font-semibold transition-all duration-300 hover:shadow-violet-500/40 hover:scale-[1.02]">
-                <UserPlus className="h-4 w-4 sm:h-5 sm:w-5 mr-1.5 sm:mr-2" />
-                Tambah Tagihan User
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[600px] max-h-[85vh] top-[10%] translate-y-0 sm:top-[50%] sm:translate-y-[-50%] overflow-y-auto bg-slate-900/95 backdrop-blur-xl border-white/10">
+            <DialogContent className="sm:max-w-[600px] max-h-[85vh] top-[10%] translate-y-0 sm:top-[50%] sm:translate-y-[-50%] overflow-y-auto bg-white border-gray-200">
               <DialogHeader>
-                <DialogTitle className="flex items-center gap-2 text-white">
+                <DialogTitle className="flex items-center gap-2 text-gray-800">
                   <UserPlus className="h-5 w-5" />
                   Tambah Tagihan ke User
                 </DialogTitle>
-                <DialogDescription className="text-white/60">
+                <DialogDescription className="text-gray-500">
                   Pilih user dan masukkan detail tagihan
                 </DialogDescription>
               </DialogHeader>
               <AddTagihanUser
                 profiles={profiles.filter(p => {
-                  // Exclude admin from target user list
                   const isAdmin = p.user_id === user?.id;
                   return !isAdmin;
                 })}
@@ -486,7 +483,10 @@ export const AdminDashboard = () => {
             </DialogContent>
           </Dialog>
 
-          <BayarLangsung 
+          <BayarLangsung
+            hideTrigger
+            open={bayarOpen}
+            onOpenChange={setBayarOpen}
             onBayarLangsung={async (nama, jumlah) => {
               const { error } = await addTagihanLunas(nama, jumlah);
               if (error) throw error;
@@ -495,16 +495,16 @@ export const AdminDashboard = () => {
 
           <div className="flex items-center gap-2 w-full sm:w-auto">
             <div className="p-2 bg-white/5 backdrop-blur-sm rounded-xl border border-white/10">
-              <Filter className="h-4 w-4 sm:h-5 sm:w-5 text-white/60" />
+              <Filter className="h-4 w-4 sm:h-5 sm:w-5 text-green-400" />
             </div>
             <Select value={selectedUserId} onValueChange={setSelectedUserId}>
-              <SelectTrigger className="w-full sm:w-[250px] h-10 sm:h-11 text-xs sm:text-sm bg-white/5 backdrop-blur-sm border-white/10 text-white rounded-xl">
+              <SelectTrigger className="w-full sm:w-[250px] h-10 sm:h-11 text-xs sm:text-sm bg-white/90 backdrop-blur-sm border-green-300 text-gray-800 rounded-xl hover:bg-white focus:ring-2 focus:ring-green-400">
                 <SelectValue placeholder="Filter berdasarkan user" />
               </SelectTrigger>
-              <SelectContent className="bg-slate-900/95 backdrop-blur-xl border-white/10">
-                <SelectItem value="all" className="text-white focus:bg-white/10">Semua User</SelectItem>
+              <SelectContent className="bg-white border border-green-300 shadow-2xl z-[100]">
+                <SelectItem value="all" className="text-gray-900 font-medium hover:bg-green-50 focus:bg-green-50 focus:text-green-700 py-2.5">Semua User</SelectItem>
                 {profiles.map((profile) => (
-                  <SelectItem key={profile.user_id} value={profile.user_id} className="text-white focus:bg-white/10">
+                  <SelectItem key={profile.user_id} value={profile.user_id} className="text-gray-900 font-medium hover:bg-green-50 focus:bg-green-50 focus:text-green-700 py-2.5">
                     {profile.full_name} ({profile.username})
                   </SelectItem>
                 ))}
@@ -573,6 +573,14 @@ export const AdminDashboard = () => {
           </SheetContent>
         </Sheet>
       </div>
+
+      <BottomNav
+        onTambahTagihan={() => setDialogOpen(true)}
+        onBayarLangsung={() => setBayarOpen(true)}
+        onTambahUser={() => setUserDialogOpen(true)}
+        showTambahUser={true}
+        role="admin"
+      />
     </div>
   );
 };

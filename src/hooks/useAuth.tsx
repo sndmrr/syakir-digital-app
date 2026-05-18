@@ -114,8 +114,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       console.warn('Supabase signOut error:', e);
     }
     
-    // Force redirect to auth page
-    window.location.href = '/auth';
+    // Force redirect to auth page using replace to avoid history issues
+    window.location.replace('/auth');
   };
 
   return (

@@ -40,15 +40,13 @@ const Auth = () => {
     setLoading(false);
   };
 
-  const bgClasses = "min-h-screen bg-gradient-to-br from-slate-900 via-blue-950 to-indigo-950 relative overflow-hidden";
+  const bgClasses = "min-h-screen bg-white relative overflow-hidden";
   const bgEffects = (
     <>
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-float"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-cyan-500 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-float" style={{ animationDelay: '2s' }}></div>
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-indigo-500 rounded-full mix-blend-multiply filter blur-3xl opacity-[0.07] animate-pulse"></div>
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-green-500 rounded-full mix-blend-multiply filter blur-3xl opacity-5 animate-float"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-emerald-500 rounded-full mix-blend-multiply filter blur-3xl opacity-5 animate-float" style={{ animationDelay: '2s' }}></div>
       </div>
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.015)_1px,transparent_1px)] bg-[size:50px_50px]"></div>
     </>
   );
 
@@ -68,31 +66,31 @@ const Auth = () => {
       <div className={`${bgClasses} flex items-center justify-center p-4`}>
         {bgEffects}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-          <Card className="w-full max-w-md bg-white/[0.04] backdrop-blur-2xl border border-white/[0.08] shadow-2xl relative z-10 overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-transparent to-cyan-500/10"></div>
-            <CardHeader className="text-center pb-6 relative z-10">
+          <Card className="w-full max-w-md bg-white/95 backdrop-blur-xl border-0 shadow-2xl relative z-10 overflow-hidden rounded-3xl">
+            <CardHeader className="text-center pb-4 pt-8 px-8 relative z-10">
               <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.2, type: "spring", stiffness: 200 }} className="flex justify-center mb-4">
                 <div className="relative">
-                  <AnimatedLogo size="lg" />
-                  <div className="absolute -inset-4 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full blur-xl opacity-25 animate-pulse"></div>
+                  <div className="w-20 h-20 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center shadow-lg">
+                    <LogIn className="h-10 w-10 text-white" />
+                  </div>
                 </div>
               </motion.div>
-              <CardTitle className="text-3xl font-orbitron font-black bg-gradient-to-r from-white via-cyan-200 to-blue-200 bg-clip-text text-transparent">
-                Syakir Digital
+              <CardTitle className="text-2xl font-bold text-gray-800">
+                Selamat Datang
               </CardTitle>
-              <p className="text-white/50 mt-2 text-sm">Masuk ke akun Anda untuk melanjutkan</p>
+              <p className="text-gray-500 mt-2 text-sm">Masuk ke akun Anda untuk melanjutkan</p>
             </CardHeader>
-            <CardContent className="relative z-10">
-              <form onSubmit={handleSubmit} className="space-y-5">
+            <CardContent className="relative z-10 px-8 pb-8">
+              <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="username" className="text-white/70 text-sm font-medium">Username</Label>
-                  <Input id="username" type="text" value={username} onChange={e => setUsername(e.target.value)} placeholder="Masukkan username" className="bg-white/5 border-white/10 text-white placeholder:text-white/25 focus:border-blue-500/50 focus:ring-blue-500/20 h-12 rounded-xl transition-all duration-300" required />
+                  <Label htmlFor="username" className="text-gray-700 text-sm font-medium">Username</Label>
+                  <Input id="username" type="text" value={username} onChange={e => setUsername(e.target.value)} placeholder="Masukkan username" className="bg-gray-50 border-gray-200 text-gray-800 placeholder:text-gray-400 focus:border-green-500 focus:ring-green-500/20 h-12 rounded-xl transition-all duration-300" required />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="password" className="text-white/70 text-sm font-medium">Password</Label>
-                  <Input id="password" type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Masukkan password" className="bg-white/5 border-white/10 text-white placeholder:text-white/25 focus:border-cyan-500/50 focus:ring-cyan-500/20 h-12 rounded-xl transition-all duration-300" required />
+                  <Label htmlFor="password" className="text-gray-700 text-sm font-medium">Password</Label>
+                  <Input id="password" type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Masukkan password" className="bg-gray-50 border-gray-200 text-gray-800 placeholder:text-gray-400 focus:border-green-500 focus:ring-green-500/20 h-12 rounded-xl transition-all duration-300" required />
                 </div>
-                <Button type="submit" className="w-full h-12 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 border-0 font-semibold rounded-xl shadow-lg shadow-blue-500/25 transition-all duration-300 hover:shadow-blue-500/40 hover:scale-[1.02]" disabled={loading}>
+                <Button type="submit" className="w-full h-12 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 border-0 font-semibold rounded-xl shadow-lg shadow-green-500/25 transition-all duration-300 hover:shadow-green-500/40 hover:scale-[1.02]" disabled={loading}>
                   {loading ? (
                     <div className="flex items-center gap-2"><div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div><span>Memuat...</span></div>
                   ) : (
@@ -101,7 +99,35 @@ const Auth = () => {
                 </Button>
               </form>
               <div className="mt-6">
-                <Button variant="ghost" onClick={() => setShowLogin(false)} className="w-full text-white/50 hover:text-white hover:bg-white/5 rounded-xl">← Kembali ke Cek Tagihan</Button>
+                <Button variant="ghost" onClick={() => setShowLogin(false)} className="w-full text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-xl">← Kembali ke Cek Tagihan</Button>
+              </div>
+              {/* Social Login */}
+              <div className="mt-6 flex flex-col items-center gap-4">
+                <div className="flex items-center gap-2">
+                  <div className="flex-1 h-px bg-gray-200"></div>
+                  <p className="text-gray-500 text-sm">Atau masuk dengan</p>
+                  <div className="flex-1 h-px bg-gray-200"></div>
+                </div>
+                <div className="flex gap-4">
+                  <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-lg cursor-pointer hover:scale-110 transition-transform border border-gray-200">
+                    <svg className="w-6 h-6" viewBox="0 0 24 24" fill="#1877F2">
+                      <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+                    </svg>
+                  </div>
+                  <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-lg cursor-pointer hover:scale-110 transition-transform border border-gray-200">
+                    <svg className="w-6 h-6" viewBox="0 0 24 24">
+                      <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                      <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                      <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                      <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                    </svg>
+                  </div>
+                  <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-lg cursor-pointer hover:scale-110 transition-transform border border-gray-200">
+                    <svg className="w-6 h-6" viewBox="0 0 24 24" fill="#1DA1F2">
+                      <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+                    </svg>
+                  </div>
+                </div>
               </div>
             </CardContent>
           </Card>
@@ -111,54 +137,75 @@ const Auth = () => {
   }
 
   return (
-    <div className={`${bgClasses} flex flex-col items-center justify-center p-4`}>
+    <div className={`${bgClasses} flex flex-col items-center justify-start p-4`}>
       {bgEffects}
-      <div className="w-full max-w-4xl space-y-8 relative z-10">
-        <motion.div initial={{ opacity: 0, y: -30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="text-center mb-12">
-          <motion.div initial={{ scale: 0, rotate: -180 }} animate={{ scale: 1, rotate: 0 }} transition={{ delay: 0.2, type: "spring", stiffness: 150 }} className="flex justify-center mb-6">
-            <div className="relative">
-              <AnimatedLogo size="xl" />
-              <div className="absolute -inset-6 bg-gradient-to-r from-blue-500 via-cyan-500 to-indigo-500 rounded-full blur-2xl opacity-25 animate-pulse"></div>
-            </div>
+      {/* Wave-shaped header */}
+      <div className="w-full relative z-10">
+        <svg className="w-full h-40 sm:h-32" viewBox="0 0 1440 320" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="waveGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" style={{ stopColor: '#065f46', stopOpacity: 1 }} />
+              <stop offset="100%" style={{ stopColor: '#10b981', stopOpacity: 1 }} />
+            </linearGradient>
+          </defs>
+          <path fill="url(#waveGradient)" fillOpacity="1" d="M0,160L48,176C96,192,192,224,288,224C384,224,480,192,576,176C672,160,768,160,864,176C960,192,1056,224,1152,224C1248,224,1344,192,1392,176L1440,160L1440,0L1392,0C1344,0,1248,0,1152,0C1056,0,960,0,864,0C768,0,672,0,576,0C480,0,384,0,288,0C192,0,96,0,48,0L0,0Z"></path>
+        </svg>
+        <div className="absolute top-6 sm:top-4 left-0 right-0 text-center z-20 px-4">
+          <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
+            <h1 className="text-2xl sm:text-4xl font-bold text-white mb-1 sm:mb-2 drop-shadow-lg">Syakir Digital</h1>
+            <p className="text-white/90 text-xs sm:text-sm mb-1 sm:mb-2 drop-shadow-md">Solusi Kebutuhan Digital Anda</p>
+            <p className="text-green-600 font-bold text-sm sm:text-lg tracking-wider drop-shadow-lg bg-white/90 rounded-full px-4 py-1 inline-block">AHLAN WA SAHLAN</p>
           </motion.div>
-          <motion.h1 initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }} className="text-4xl sm:text-5xl lg:text-6xl font-orbitron font-black bg-gradient-to-r from-white via-cyan-200 to-blue-200 bg-clip-text text-transparent mb-4">
-            Syakir Digital
-          </motion.h1>
-          <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }} className="text-lg sm:text-xl text-white/50 font-medium">
-            Solusi Kebutuhan Digital Anda
-          </motion.p>
-          <motion.div initial={{ scaleX: 0 }} animate={{ scaleX: 1 }} transition={{ delay: 0.6, duration: 0.5 }} className="mt-6 w-32 h-1 bg-gradient-to-r from-blue-500 via-cyan-500 to-indigo-500 rounded-full mx-auto" />
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7 }} className="flex flex-wrap justify-center gap-3 mt-8">
-            <div className="flex items-center gap-2 px-4 py-2 bg-white/[0.04] backdrop-blur-sm rounded-full border border-white/[0.08]">
-              <Shield className="h-4 w-4 text-blue-400" />
-              <span className="text-sm text-white/60">Aman & Terpercaya</span>
-            </div>
-            <div className="flex items-center gap-2 px-4 py-2 bg-white/[0.04] backdrop-blur-sm rounded-full border border-white/[0.08]">
-              <Zap className="h-4 w-4 text-cyan-400" />
-              <span className="text-sm text-white/60">Cepat & Mudah</span>
-            </div>
-            <div className="flex items-center gap-2 px-4 py-2 bg-white/[0.04] backdrop-blur-sm rounded-full border border-white/[0.08]">
-              <Signal className="h-4 w-4 text-blue-400" />
-              <span className="text-sm text-white/60">Professional</span>
-            </div>
-          </motion.div>
+        </div>
+      </div>
+
+      <div className="w-full max-w-4xl space-y-6 relative z-10 -mt-8">
+        {/* Tags */}
+        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="flex flex-wrap justify-center gap-3 mt-4">
+          <div className="flex items-center gap-2 px-4 py-2 bg-white/90 backdrop-blur-sm rounded-full border border-green-300">
+            <Shield className="h-4 w-4 text-green-600" />
+            <span className="text-sm text-green-700 font-medium">Aman & Terpercaya</span>
+          </div>
+          <div className="flex items-center gap-2 px-4 py-2 bg-white/90 backdrop-blur-sm rounded-full border border-green-300">
+            <Zap className="h-4 w-4 text-green-600" />
+            <span className="text-sm text-green-700 font-medium">Cepat & Mudah</span>
+          </div>
+          <div className="flex items-center gap-2 px-4 py-2 bg-white/90 backdrop-blur-sm rounded-full border border-green-300">
+            <Signal className="h-4 w-4 text-green-600" />
+            <span className="text-sm text-green-700 font-medium">Professional</span>
+          </div>
         </motion.div>
 
-        <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5, duration: 0.6 }}>
+        {/* Cek Tagihan Card */}
+        <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}>
           <CekTagihan />
         </motion.div>
         
-        <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7, duration: 0.6 }} className="flex flex-col sm:flex-row justify-center gap-4 mt-8">
-          <Button onClick={() => setShowLogin(true)} className="group relative h-14 px-8 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 border-0 font-semibold text-lg rounded-2xl shadow-lg shadow-blue-500/25 transition-all duration-300 hover:shadow-blue-500/40 hover:scale-[1.02] overflow-hidden">
+        {/* Buttons */}
+        <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }} className="flex flex-col sm:flex-row justify-center gap-4">
+          <Button onClick={() => setShowLogin(true)} className="group relative h-14 px-8 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 border-0 font-semibold text-lg rounded-full shadow-lg transition-all duration-300 hover:shadow-green-500/40 hover:scale-105 overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
             <LogIn className="h-5 w-5 mr-3" />
             Login Aplikasi
           </Button>
-          <Button onClick={() => setShowRegister(true)} className="group relative h-14 px-8 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-700 hover:to-violet-700 border-0 font-semibold text-lg rounded-2xl shadow-lg shadow-indigo-500/25 transition-all duration-300 hover:shadow-indigo-500/40 hover:scale-[1.02] overflow-hidden">
+          <Button onClick={() => setShowRegister(true)} className="group relative h-14 px-8 bg-gradient-to-r from-teal-500 to-green-500 hover:from-teal-600 hover:to-green-600 border-0 font-semibold text-lg rounded-full shadow-lg transition-all duration-300 hover:shadow-teal-500/40 hover:scale-105 overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700"></div>
             <UserPlus className="h-5 w-5 mr-3" />
-            ✨ Daftar Jadi Reseller
+            Daftar Jadi Reseller
           </Button>
+        </motion.div>
+
+        {/* Wave-shaped footer */}
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.8 }} className="w-full relative z-10 mt-8">
+          <svg className="w-full h-24" viewBox="0 0 1440 320" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="waveGradientBottom" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" style={{ stopColor: '#10b981', stopOpacity: 1 }} />
+                <stop offset="100%" style={{ stopColor: '#065f46', stopOpacity: 1 }} />
+              </linearGradient>
+            </defs>
+            <path fill="url(#waveGradientBottom)" fillOpacity="1" d="M0,224L48,208C96,192,192,160,288,160C384,160,480,192,576,208C672,224,768,224,864,208C960,192,1056,160,1152,160C1248,160,1344,192,1392,208L1440,224L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+          </svg>
         </motion.div>
       </div>
     </div>

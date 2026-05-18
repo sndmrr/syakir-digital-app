@@ -45,32 +45,32 @@ export const AddTagihan = ({ onAddTagihan }: AddTagihanProps) => {
   return (
     <div className="flex flex-col h-full overflow-hidden">
       {/* Header dekoratif di posisi paling atas */}
-      <div className="text-center mb-6 relative flex-shrink-0">
+      <div className="text-center mb-4 relative flex-shrink-0">
         <div className="absolute inset-0 flex items-center justify-center opacity-10">
-          <div className="text-6xl">🌙</div>
+          <div className="text-4xl">🌙</div>
         </div>
-        <h3 className="text-gray-800 text-xl font-bold relative z-10 mb-2">
+        <h3 className="text-gray-800 text-sm font-bold relative z-10 mb-1.5">
           ✨ Tambah Tagihan Baru ✨
         </h3>
-        <div className="w-24 h-0.5 bg-gradient-to-r from-blue-400 to-indigo-400 mx-auto rounded-full"></div>
+        <div className="w-16 h-0.5 bg-gradient-to-r from-green-400 to-emerald-400 mx-auto rounded-full"></div>
       </div>
 
       {/* Form content - flex untuk layout stabil */}
       <div className="flex-1 flex flex-col justify-start overflow-hidden">
-        <div className="grid grid-cols-1 gap-4 flex-shrink-0">
+        <div className="grid grid-cols-1 gap-3 flex-shrink-0">
           <div>
-            <Label htmlFor="nama" className="text-gray-700 font-medium">Nama</Label>
+            <Label htmlFor="nama" className="text-gray-700 font-medium text-xs">Nama</Label>
             <Input
               ref={namaInputRef}
               id="nama"
               value={inputNama}
               onChange={(e) => setInputNama(e.target.value)}
               placeholder="Masukkan nama"
-              className="border-gray-300 focus:border-blue-500 focus:ring-blue-200 bg-white"
+              className="border-gray-300 focus:border-green-500 focus:ring-green-200 bg-white h-9 rounded-lg text-sm"
             />
           </div>
           <div>
-            <Label htmlFor="jumlah" className="text-gray-700 font-medium">Jumlah Tagihan</Label>
+            <Label htmlFor="jumlah" className="text-gray-700 font-medium text-xs">Jumlah Tagihan</Label>
             <Input
               ref={jumlahInputRef}
               id="jumlah"
@@ -78,22 +78,22 @@ export const AddTagihan = ({ onAddTagihan }: AddTagihanProps) => {
               value={inputJumlah}
               onChange={(e) => setInputJumlah(e.target.value)}
               placeholder="Masukkan jumlah"
-              className="border-gray-300 focus:border-blue-500 focus:ring-blue-200 bg-white"
+              className="border-gray-300 focus:border-green-500 focus:ring-green-200 bg-white h-9 rounded-lg text-sm"
             />
           </div>
           <Button
             onClick={handleAddTagihan}
-            className="w-full bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white font-medium shadow-lg transition-all duration-200 hover:shadow-xl border border-blue-400 flex-shrink-0"
+            className="w-full bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white font-medium shadow-sm transition-all duration-200 hover:shadow-md border border-green-400 flex-shrink-0 h-9 rounded-lg text-sm"
           >
-            <Plus className="h-5 w-5 mr-2" />
+            <Plus className="h-4 w-4 mr-2" />
             Tambah Tagihan
           </Button>
         </div>
       </div>
 
       {/* Ornamen bawah - fixed position */}
-      <div className="flex justify-center mt-4 opacity-20 flex-shrink-0">
-        <div className="text-2xl">🕌</div>
+      <div className="flex justify-center mt-3 opacity-20 flex-shrink-0">
+        <div className="text-xl">🕌</div>
       </div>
     </div>
   );

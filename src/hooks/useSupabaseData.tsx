@@ -40,7 +40,7 @@ export const useSupabaseData = () => {
         .select('*')
         .eq('user_id', user.id)
         .is('deleted_at', null)
-        .order('created_at', { ascending: false });
+        .order('updated_at', { ascending: false });
 
       if (tagihanError) throw tagihanError;
 

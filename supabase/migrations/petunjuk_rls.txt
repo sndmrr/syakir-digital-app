@@ -1,0 +1,115 @@
+Petunjuk: Langkah-langkah penerapan RLS (copy-paste satu per satu)
+
+Petunjuk singkat:
+- Jalankan tiap blok SQL satu per satu di SQL editor Anda.
+- Perintah `DROP POLICY IF EXISTS` akan menghapus kebijakan yang sudah ada sebelum membuat yang baru.
+- Jika beberapa RLS sudah aktif, Anda bisa melewatkan langkah `ENABLE ROW LEVEL SECURITY` (menjalankannya aman jika sudah aktif).
+
+1) Aktifkan RLS pada tabel `user_roles`:
+
+ALTER TABLE public.user_roles ENABLE ROW LEVEL SECURITY;
+
+2) Buat kebijakan: Users can view their own role
+
+DROP POLICY IF EXISTS "Users can view their own role" ON public.user_roles;
+CREATE POLICY "Users can view their own role"
+ON public.user_roles FOR SELECT
+USING (auth.uid() = user_id);
+
+3) Buat kebijakan: Admins can view all roles
+
+DROP POLICY IF EXISTS "Admins can view all roles" ON public.user_roles;
+CREATE POLICY "Admins can view all roles"
+ON public.user_roles FOR SELECT
+USING (public.has_role(auth.uid(), 'admin'));
+
+4) Buat kebijakan: Admins can insert roles
+
+DROP POLICY IF EXISTS "Admins can insert roles" ON public.user_roles;
+CREATE POLICY "Admins can insert roles"
+ON public.user_roles FOR INSERT
+WITH CHECK (public.has_role(auth.uid(), 'admin'));
+
+5) Buat kebijakan: Admins can update roles
+
+DROP POLICY IF EXISTS "Admins can update roles" ON public.user_roles;
+CREATE POLICY "Admins can update roles"
+ON public.user_roles FOR UPDATE
+USING (public.has_role(auth.uid(), 'admin'));
+
+6) Buat kebijakan: Admins can delete roles
+
+DROP POLICY IF EXISTS "Admins can delete roles" ON public.user_roles;
+CREATE POLICY "Admins can delete roles"
+ON public.user_roles FOR DELETE
+USING (public.has_role(auth.uid(), 'admin'));
+
+---
+
+7) Aktifkan RLS pada tabel `profiles`:
+
+ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
+
+8) Buat kebijakan: Users can view their own profile
+
+DROP POLICY IF EXISTS "Users can view their own profile" ON public.profiles;
+CREATE POLICY "Users can view their own profile"
+ON public.profiles FOR SELECT
+USING (auth.uid() = user_id);
+
+9) Buat kebijakan: Admins can view all profiles
+
+DROP POLICY IF EXISTS "Admins can view all profiles" ON public.profiles;
+CREATE POLICY "Admins can view all profiles"
+ON public.profiles FOR SELECT
+USING (public.has_role(auth.uid(), 'admin'));
+
+10) Buat kebijakan: Admins can insert profiles
+
+DROP POLICY IF EXISTS "Admins can insert profiles" ON public.profiles;
+CREATE POLICY "Admins can insert profiles"
+ON public.profiles FOR INSERT
+WITH CHECK (public.has_role(auth.uid(), 'admin'));
+
+11) Buat kebijakan: Admins can update profiles
+
+DROP POLICY IF EXISTS "Admins can update profiles" ON public.profiles;
+CREATE POLICY "Admins can update profiles"
+ON public.profiles FOR UPDATE
+USING (public.has_role(auth.uid(), 'admin'));
+
+12) Buat kebijakan: Admins can delete profiles
+
+DROP POLICY IF EXISTS "Admins can delete profiles" ON public.profiles;
+CREATE POLICY "Admins can delete profiles"
+ON public.profiles FOR DELETE
+USING (public.has_role(auth.uid(), 'admin'));
+
+---
+
+13) Aktifkan RLS pada tabel `tagihan`:
+
+ALTER TABLE public.tagihan ENABLE ROW LEVEL SECURITY;
+
+14) Buat kebijakan: Users can delete their own deleted tagihan
+
+DROP POLICY IF EXISTS "Users can delete their own deleted tagihan" ON public.tagihan;
+CREATE POLICY "Users can delete their own deleted tagihan"
+ON public.tagihan FOR DELETE
+USING (auth.uid() = user_id AND deleted_at IS NOT NULL);
+
+15) Buat kebijakan: Public can view active tagihan
+
+DROP POLICY IF EXISTS "Public can view active tagihan" ON public.tagihan;
+CREATE POLICY "Public can view active tagihan"
+ON public.tagihan FOR SELECT
+USING (deleted_at IS NULL);
+
+---
+
+Catatan tambahan:
+- Pastikan fungsi `public.has_role(uid, role)` tersedia di database Anda.
+- `auth.uid()` bergantung pada konteks Supabase; jalankan perintah ini di lingkungan Supabase SQL Editor.
+- Jika Anda ingin memastikan kebijakan tertentu tidak diubah kecuali secara eksplisit, jalankan setiap blok dan verifikasi hasilnya sebelum melanjutkan.
+
+Selesai.
