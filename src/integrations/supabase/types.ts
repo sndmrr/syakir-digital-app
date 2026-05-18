@@ -303,6 +303,16 @@ export type Database = {
         }
         Returns: boolean
       }
+      search_tagihan_by_name: {
+        Args: { search_name: string }
+        Returns: {
+          created_at: string
+          id: string
+          jumlah: number
+          nama: string
+          status: string
+        }[]
+      }
     }
     Enums: {
       app_role: "admin" | "mitra"
