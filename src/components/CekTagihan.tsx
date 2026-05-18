@@ -39,9 +39,9 @@ export const CekTagihan = () => {
     setLoading(true);
     setHasSearched(true);
     try {
-      const { data, error } = await supabase.from('tagihan').select('id, nama, jumlah, status, created_at').ilike('nama', `%${searchName.trim()}%`).is('deleted_at', null).order('created_at', { ascending: false });
+      const { data, error } = await (supabase as any).rpc('search_tagihan_by_name', { search_name: searchName.trim() });
       if (error) throw error;
-      const typedData = (data || []).map(item => ({ ...item, status: item.status as 'belum_lunas' | 'lunas' }));
+      const typedData = ((data as any[]) || []).map(item => ({ ...item, status: item.status as 'belum_lunas' | 'lunas' }));
       setTagihans(typedData);
       if (typedData.length === 0) { toast({ title: "Info", description: `Tidak ada tagihan ditemukan untuk nama "${searchName.trim()}"` }); }
     } catch (error: any) {
